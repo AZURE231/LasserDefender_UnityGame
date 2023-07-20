@@ -11,6 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField] float playerSpeed = 1f;
     [SerializeField] float padding = 5f;
 
+    Shooter shooter;
+    private void Awake()
+    {
+        shooter = FindObjectOfType<Shooter>();
+    }
+
     private void Start()
     {
         InitBounds();
@@ -40,5 +46,13 @@ public class Player : MonoBehaviour
     void OnMove(InputValue value)
     {
         rawInput = value.Get<Vector2>();
+    }
+
+    void OnFire(InputValue value)
+    {
+        if (shooter)
+        {
+            shooter.isFiring = value.isPressed;
+        }
     }
 }
