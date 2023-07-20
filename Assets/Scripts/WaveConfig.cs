@@ -8,6 +8,9 @@ public class WaveConfig : ScriptableObject
     [SerializeField] List<GameObject> enemiesList;
     [SerializeField] Transform pathPrefab;
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float timeBetweenEnemySpawns = 1f;
+    [SerializeField] float spawnTimeVariance = 0f;
+    [SerializeField] float minimumSpawnTime = 0.2f;
 
     public Transform GetStartingWaypoint()
     {
@@ -27,7 +30,7 @@ public class WaveConfig : ScriptableObject
     public List<Transform> GetWayPoints()
     {
         List<Transform> waypoints = new List<Transform>();
-        foreach(Transform child in pathPrefab)
+        foreach (Transform child in pathPrefab)
         {
             waypoints.Add(child);
         }
@@ -37,5 +40,15 @@ public class WaveConfig : ScriptableObject
     public float GetMoveSpeed()
     {
         return moveSpeed;
+    }
+
+    public float GetRandomSpawnTime()
+    {
+        // make a random time in range defined
+        float spawnTime = Random.Range(timeBetweenEnemySpawns - spawnTimeVariance,
+            timeBetweenEnemySpawns + spawnTimeVariance);
+        // make the random time only in specific range?
+        // why dont use random.range(minimum, maximum)?
+        return Mathf.Clamp(spawnTime, minimumSpawnTime, float.MaxValue);
     }
 }
